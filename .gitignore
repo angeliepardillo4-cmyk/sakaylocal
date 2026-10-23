@@ -1,0 +1,22 @@
+# Dependency and build output
+/vendor/
+**/vendor/
+**/node_modules/
+**/dist/
+# Temporary root-level Composer files; the Laravel project lives in /backend.
+/composer.json
+/composer.lock
+
+# Local configuration and secrets
+**/.env
+!**/.env.example
+**/.env.*
+!**/.env.example
+
+# Runtime / editor files
+**/storage/logs/*.log
+**/.phpunit.cache/
+**/.phpunit.result.cache
+*.log
+.DS_Store
+Thumbs.db

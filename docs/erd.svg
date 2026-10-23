@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1150" viewBox="0 0 1600 1150" role="img" aria-labelledby="title desc">
+  <title id="title">SakayLocal entity relationship diagram</title>
+  <desc id="desc">Users have queue entries and Sanctum tokens. Terminals have queue entries and connect to fare routes as origins and destinations.</desc>
+  <defs>
+    <style>
+      text{font-family:Arial,Helvetica,sans-serif;fill:#193b32}.title{font-size:34px;font-weight:700}.subtitle{font-size:16px;fill:#607970}.entity{fill:#fff;stroke:#d9e8e1;stroke-width:2;rx:15}.head{fill:#176e56}.headText{font-size:20px;font-weight:700;fill:#fff}.field{font-size:15px}.key{font-weight:700;fill:#176e56}.meta{font-size:12px;fill:#6f827a}.rel{fill:none;stroke:#4b9a7a;stroke-width:3}.relText{font-size:13px;font-weight:700;fill:#176e56}.note{font-size:14px;fill:#71837c}
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="#4b9a7a"/></marker>
+  </defs>
+  <rect width="1600" height="1150" fill="#f4f8f6"/>
+  <text x="70" y="70" class="title">SakayLocal · Database ERD</text>
+  <text x="70" y="103" class="subtitle">Laravel 12 · MySQL/MariaDB · relationships used by the transit dashboard</text>
+
+  <!-- Relationships behind entities -->
+  <path class="rel" marker-end="url(#arrow)" d="M285 450V620"/><text x="300" y="545" class="relText">1 → many</text>
+  <path class="rel" marker-end="url(#arrow)" d="M480 300H530V940H600"/><text x="485" y="280" class="relText">1 → many</text>
+  <path class="rel" marker-end="url(#arrow)" d="M820 725V825"/><text x="835" y="785" class="relText">1 → many</text>
+  <path class="rel" marker-end="url(#arrow)" d="M1040 440H1150"/><text x="1048" y="422" class="relText">origin · 1 → many</text>
+  <path class="rel" marker-end="url(#arrow)" d="M1040 620H1090V570H1150"/><text x="1045" y="650" class="relText">destination · 1 → many</text>
+
+  <!-- Users -->
+  <g transform="translate(80 140)"><rect class="entity" width="400" height="310"/><path class="head" d="M15 0H385a15 15 0 0 1 15 15v48H0V15A15 15 0 0 1 15 0"/><text class="headText" x="22" y="40">users</text>
+    <text class="field" x="22" y="98"><tspan class="key">PK</tspan><tspan dx="12">id</tspan></text><text class="field" x="22" y="133">name</text><text class="field" x="22" y="168">email · unique</text><text class="field" x="22" y="203">password</text><text class="field" x="22" y="238">role · admin | user</text><text class="field" x="22" y="273">created_at · updated_at</text></g>
+  <!-- Personal access tokens -->
+  <g transform="translate(80 620)"><rect class="entity" width="400" height="230"/><path class="head" d="M15 0H385a15 15 0 0 1 15 15v48H0V15A15 15 0 0 1 15 0"/><text class="headText" x="22" y="40">personal_access_tokens</text>
+    <text class="field" x="22" y="98"><tspan class="key">PK</tspan><tspan dx="12">id</tspan></text><text class="field" x="22" y="133">tokenable_type · tokenable_id</text><text class="field" x="22" y="168">name · token · abilities</text><text class="field" x="22" y="203">last_used_at · expires_at</text><text class="meta" x="22" y="222">Sanctum polymorphic token owner</text></g>
+  <!-- Terminals -->
+  <g transform="translate(600 355)"><rect class="entity" width="440" height="370"/><path class="head" d="M15 0H425a15 15 0 0 1 15 15v48H0V15A15 15 0 0 1 15 0"/><text class="headText" x="22" y="40">terminals</text>
+    <text class="field" x="22" y="98"><tspan class="key">PK</tspan><tspan dx="12">id</tspan></text><text class="field" x="22" y="133">name · place</text><text class="field" x="22" y="168">status · active | inactive</text><text class="field" x="22" y="203">wait_minutes · capacity</text><text class="field" x="22" y="238">created_at · updated_at</text><text class="meta" x="22" y="290">Has many queue_entries</text><text class="meta" x="22" y="315">Has many fare_routes as origin</text><text class="meta" x="22" y="340">Has many fare_routes as destination</text></g>
+  <!-- Fare routes -->
+  <g transform="translate(1150 240)"><rect class="entity" width="390" height="360"/><path class="head" d="M15 0H375a15 15 0 0 1 15 15v48H0V15A15 15 0 0 1 15 0"/><text class="headText" x="22" y="40">fare_routes</text>
+    <text class="field" x="22" y="98"><tspan class="key">PK</tspan><tspan dx="12">id</tspan></text><text class="field" x="22" y="133"><tspan class="key">FK</tspan><tspan dx="12">origin_terminal_id</tspan></text><text class="field" x="22" y="168"><tspan class="key">FK</tspan><tspan dx="12">destination_terminal_id</tspan></text><text class="field" x="22" y="203">fare · decimal(8,2)</text><text class="field" x="22" y="238">status · approved | pending</text><text class="field" x="22" y="273">created_at · updated_at</text><text class="meta" x="22" y="320">Unique origin + destination pair</text></g>
+  <!-- Queue entries -->
+  <g transform="translate(600 825)"><rect class="entity" width="440" height="260"/><path class="head" d="M15 0H425a15 15 0 0 1 15 15v48H0V15A15 15 0 0 1 15 0"/><text class="headText" x="22" y="40">queue_entries</text>
+    <text class="field" x="22" y="98"><tspan class="key">PK</tspan><tspan dx="12">id</tspan></text><text class="field" x="22" y="133"><tspan class="key">FK</tspan><tspan dx="12">user_id · terminal_id</tspan></text><text class="field" x="22" y="168">ticket_number · unique</text><text class="field" x="22" y="203">status · pending | approved | completed | cancelled</text><text class="field" x="22" y="238">created_at · updated_at</text></g>
+  <text x="1150" y="760" class="note">FK = foreign key · PK = primary key</text>
+  <text x="1150" y="788" class="note">Cascade deletes keep child records consistent.</text>
+</svg>
